@@ -1,0 +1,23 @@
+Package: dsconnect
+Title: Connects datasketch to R
+Version: 0.0.0.1
+Authors@R: 
+    person("Jp", "Marin Diaz", , "jpmarindiaz@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = ""))
+Description: Connects datasketch to R
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Suggests: 
+    testthat (>= 3.0.0),
+    paws.storage
+Config/testthat/edition: 3
+Imports: 
+    ghql,
+    jsonlite,
+    cli,
+    glue,
+    lifecycle,
+    rlang,
+    withr

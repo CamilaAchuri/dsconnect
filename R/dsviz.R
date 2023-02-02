@@ -1,0 +1,186 @@
+
+#' @export
+dsviz <- function(viz, name = NULL, description = NULL, ...){
+  args <- list(...)
+
+  type <- dsviz_type(viz)
+  if(type == "htmlwidget"){
+    formats <- c("html","png")
+    width <- args$width %||% "100%"
+  }
+  if(type == "gg"){
+    formats <- c("png", "svg")
+    width <- args$width %||% 650L
+  }
+
+
+  name <- name %||% get_dsviz_title(viz)
+
+  dv <- list(
+    name = name,
+    description = description,
+    slug = make_slug(name),
+    username = args$username %||% "",
+    type = type,
+    viz_type = type,
+    width = width,
+    height = as.integer(args$height) %||% 500L,
+    access = args$access %||% "private",
+    license = NULL,
+    #time_created = NULL,
+    time_last_updated = args$time_last_updated %||% unix_timestamp(),
+    formats = args$formats %||% formats,
+    tags = args$tags,
+    sources = args$sources,
+    dsapp = args$dsapp,
+    fringe = args$fringe,
+    viz = viz
+  )
+  class(dv) <- "dsviz"
+  dv
+}
+
+#' @export
+dsviz_update_meta <- function(dv, ...){
+  if(class(dv) != "dsviz") stop("Input must be of class 'dsviz'.")
+  fixed <- c("viz", "type", "viz_type")
+  args <- list(...)
+  if(any(names(args) %in% fixed)){
+    warning("Cannot update ",
+            paste0(names(args)[names(args) %in% fixed], collapse = ", "),
+            ". Removing from meta.")
+    args <- args[!names(args) %in% fixed]
+  }
+  info <- list(name = args$name %||% dv$name,
+               description = args$description %||% dv$description,
+               slug = args$slug %||% create_slug(args$name),
+               width = as.integer(args$width) %||% dv$width,
+               height = as.integer(args$height) %||% dv$height,
+               username = args$username %||% "",
+               access = args$access %||% dv$access,
+               license = NULL,
+               #time_created = NULL,
+               time_last_updated = args$time_last_updated %||% dv$time_last_updated,
+               formats = args$formats %||% dv$formats,
+               dsapp = args$dsapp %||% dv$dsapp,
+               fringe = args$fringe %||% dv$fringe)
+  dv <- modifyList(dv, info)
+  dv$sources <- args$sources %||% dv$sources
+  dv$tags <- args$tags %||% dv$tags
+  dv
+}
+
+#' @export
+dsviz_write <- function(dv, path, ...){
+  if(!"dsviz" %in% class(dv)){
+    stop("dv must be of class dsviz")
+  }
+  args <- list(...)
+  username <- dv$username
+  viz <- dv$viz
+  type <- dsviz_type(viz)
+  viz_width <- dv$width
+  viz_height <- dv$height
+  viz_path <- file.path(path, dv$slug, dv$slug)
+
+  save_local(type = type,
+             viz = viz,
+             viz_path = viz_path,
+             path = path,
+             viz_height = viz_height,
+             viz_width = viz_width)
+
+  dv$viz <- NULL
+  y <- modifyList(dv, args$meta %||% list())
+
+  if(type == "htmlwidget"){
+    size <- file.info(paste0(viz_path,".html"))$size
+    download <- list(
+      html = glue::glue("https://uploads.dskt.ch/",{username},
+                        paste0(viz_path,".html")),
+      jpg = glue::glue("https://uploads.dskt.ch/",{username},
+                       paste0(viz_path,".jpg"))
+    )
+  }
+  if(type == "gg"){
+    size <- file.info(paste0(viz_path,".png"))$size
+    download <- list(
+      png = glue::glue("https://uploads.dskt.ch/",{username},
+                        paste0(viz_path,".png")),
+      svg = glue::glue("https://uploads.dskt.ch/",{username},
+                       paste0(viz_path,".svg"))
+    )
+  }
+  y$filesize <- size
+  y$download <- download
+  class(y) <- "list"
+  jsonlite::write_json(y, file.path(path, dv$slug, "medata.json"),
+                       auto_unbox = TRUE,
+                       pretty = TRUE)
+}
+
+#' @export
+is_dsviz <- function(viz){
+  "dsviz" %in% class(viz)
+}
+
+
+#' @export
+dsviz_type <- function(viz){
+  if(any(c("gg", "ggmagic") %in% class(viz))){
+    return("gg")
+  }
+  if(all(c("htmlwidget") %in% class(viz))){
+    return("htmlwidget")
+  }
+}
+
+get_dsviz_title <- function(viz){
+  type <- dsviz_type(viz)
+  if(type == "htmlwidget"){
+    if("highchart" %in% class(viz)){
+      return(viz$x$hc_opts$title$text)
+    }
+  }
+  if(type == "gg"){
+    return(viz$labels$title)
+  }
+}
+
+
+save_local <- function(type, viz, viz_path, path, viz_height, viz_width){
+  switch(type,
+         "gg" = save_gg(viz = viz, viz_path = viz_path,
+                        viz_height = viz_height,
+                        viz_width = viz_width),
+         "htmlwidget" = save_htmlwidget(viz = viz,
+                                        viz_path = viz_path,
+                                        viz_height = viz_height,
+                                        viz_width = viz_width,
+                                        path = path))
+}
+
+
+save_htmlwidget <- function(viz, viz_path, viz_height, viz_width, path){
+  filepath <- paste0(random_name(),".html")
+  htmlwidgets::saveWidget(viz, filepath,
+                          selfcontained = TRUE)
+  dir.create(path, recursive = TRUE)
+  file.copy(filepath, paste0(viz_path,".html"))
+  if (!webshot::is_phantomjs_installed())
+    webshot::install_phantomjs()
+  webshot::webshot(paste0(viz_path,".html"), paste0(viz_path,".png"),
+                   vheight = viz_height, delay = 0.2)
+  file.remove(filepath)
+}
+
+save_gg <- function(viz, viz_path, viz_height, viz_width){
+  ggplot2::ggsave(paste0(viz_path,".png"), plot = viz,
+                  width = viz_width/100, height = viz_height/100, units = "in", dpi = 100,
+                  device = "png")
+  ggplot2::ggsave(paste0(viz_path,".svg"), plot = viz,
+                  width = viz_width/100, height = viz_height/100, units = "in", dpi = 100,
+                  device = "svg")
+}
+
+
