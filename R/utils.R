@@ -1,5 +1,14 @@
 
 
+load_auth <- function(){
+  dotenv::load_dot_env()
+  list(
+    DS_AUTH_USERNAME = Sys.getenv("DS_AUTH_USERNAME"),
+    DS_AUTH_TOKEN = Sys.getenv("DS_AUTH_TOKEN")
+    )
+}
+
+
 file_ext <- function (x){
   pos <- regexpr("\\.([[:alnum:]]+)$", x)
   ifelse(pos > -1L, substring(x, pos + 1L), "")

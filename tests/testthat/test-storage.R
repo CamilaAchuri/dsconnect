@@ -23,4 +23,6 @@ test_that("Storage works", {
   folder <- "tmp/charts/my-chart"
   s3_upload_folder(folder, username = "jpmarindiaz")
 
+
+
 })

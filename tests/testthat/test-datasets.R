@@ -1,10 +1,7 @@
 test_that("Get datasets", {
 
 
-  get_datasets(username = "ddazal", token = "bEh3N6ZtfpAjPcco")
-
-  get_datasets("jpmarindiaz", token = "nVNaDbXqygpj84oQ")
-
+  get_datasets(username)
 
 
 })

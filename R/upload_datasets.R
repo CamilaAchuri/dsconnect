@@ -1,5 +1,5 @@
 
-upload_datasets <- function(username, token, name, table, slug = NULL){
+upload_datasets <- function(table, name, slug = NULL){
 
   # organizationSlug = "ddazal",
   # name = "Lluvias Bogotá 4",
@@ -12,9 +12,9 @@ upload_datasets <- function(username, token, name, table, slug = NULL){
 
   queryname <- "upload_dataset"
   variables = list(
-    token = token,
+    token = load_auth()$DS_AUTH_TOKEN,
     input = list(
-      organizationSlug = username,
+      organizationSlug = load_auth()$DS_AUTH_USERNAME,
       name = name,
       slug = slug,
       file = file

@@ -62,11 +62,33 @@ dsqueries <- function(){
 
   '
 
+  create_visualization <- '
+  mutation($token: String!, $sender: String!,
+            $name: String!,$slug: String!,
+            $username: String!, $app: String!) {
+    addVisualization(
+      input: {
+        token: $token,
+        sender: $sender,
+        name: $name,
+        slug: $slug,
+        organizationSlug: $username,
+        app: $app
+      }
+    ) {
+      id
+    }
+  }
+  '
+
+
+
   dsqueries <- list(
     get_datasets = get_datasets,
     upload_dataset = upload_dataset,
     create_app_premium = create_app_premium,
-    create_app_public = create_app_public
+    create_app_public = create_app_public,
+    create_visualization = create_visualization
   )
 
   dsqueries
@@ -80,7 +102,7 @@ available_dsqueries <- function(){
 run_dsqueries <- function(queryname, variables, print_query = FALSE){
   qry <- dsqueries()
   if(!queryname %in% names(qry))
-    stop("Queryname must be one of: ", paste(names(qry$queries), collapse = ", "))
+    stop("Queryname must be one of: ", paste(names(qry), collapse = ", "))
 
   url <- "https://app.datasketch.co/.netlify/functions/graphql"
 
@@ -99,7 +121,8 @@ run_dsqueries <- function(queryname, variables, print_query = FALSE){
     #   )
     # ),
     body = list(query = q, variables = variables),
-    encode = "json"
+    encode = "json",
+    verbose()
   )
 
   httr::content(res)
