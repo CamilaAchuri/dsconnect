@@ -1,4 +1,5 @@
 
+#' @export
 upload_datasets <- function(table, name, slug = NULL,
                             auth_username = NULL,
                             auth_token = NULL){
