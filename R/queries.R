@@ -115,18 +115,11 @@ run_dsqueries <- function(queryname, variables, print_query = FALSE){
 
   res <- httr::POST(
     url = url,
-    # httr::add_headers(
-    #   Authorization = paste0(
-    #     "Basic ", jsonlite::base64_enc(input = paste0(my_user, ":", my_password))
-    #   )
-    # ),
     body = list(query = q, variables = variables),
     encode = "json",
-    verbose()
+    httr::verbose()
   )
-
   httr::content(res)
-
 
 }
 

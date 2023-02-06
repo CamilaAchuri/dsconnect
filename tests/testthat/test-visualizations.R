@@ -4,7 +4,7 @@ test_that("multiplication works", {
   gg <- ggplot(cars, aes(speed, dist)) + geom_point()
   gg
 
-  dv <- dsviz(gg, name = "My chart2", dsapp = "simple-charts",
+  dv <- dsviz(gg, name = "My chart3", dsapp = "simple-charts",
               username = "jpmarindiaz")
   # Write local
   path <- "tmp/chart2"
@@ -13,7 +13,7 @@ test_that("multiplication works", {
 
   # Save to Datasketch
   username <- "jpmarindiaz"
-  upload_visualization(dv, "jpmarindiaz")
+  upload_visualization(dv, "jpmarindiaz", print_query = TRUE)
 
 
 

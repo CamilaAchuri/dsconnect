@@ -114,7 +114,7 @@ dsviz_write <- function(dv, path, ...){
   y$filesize <- size
   y$download <- download
   class(y) <- "list"
-  jsonlite::write_json(y, file.path(path, dv$slug, "medata.json"),
+  jsonlite::write_json(y, file.path(path, dv$slug, "metadata.json"),
                        auto_unbox = TRUE,
                        pretty = TRUE)
 }

@@ -1,9 +1,10 @@
 
-upload_visualization <- function(dv, username){
+upload_visualization <- function(dv, username, print_query = print_query){
 
   slug <- dv$slug
   name <- dv$name
   app <- dv$dsapp
+  app <- "cldn3r7q4020508mlh7yjnvkj"
 
   # Save dv to local dir
   local_path <- file.path(tempdir())
@@ -24,7 +25,8 @@ upload_visualization <- function(dv, username){
     username = username,
     app = app
   )
-  res <- run_dsqueries(queryname, variables = variables, print_query = TRUE)
+  res <- run_dsqueries(queryname, variables = variables,
+                       print_query = print_query)
 
   unlink(local_path, recursive = TRUE)
 
