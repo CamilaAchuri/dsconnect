@@ -13,7 +13,7 @@ test_that("multiplication works", {
 
   # Save to Datasketch
   username <- "jpmarindiaz"
-  upload_visualization(dv, "jpmarindiaz", print_query = TRUE)
+  upload_visualization(dv, "jpmarindiaz")
 
 
 

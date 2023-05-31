@@ -1,13 +1,15 @@
 
-
+#' @export
 s3_upload <- function(path, username, key = NULL){
   if(fs::is_dir(path)){
-    upload_s3_folder()
+    s3_upload_folder(path, username)
+  } else{
+    upload_s3_file(path)
   }
-  upload_s3_file(path)
+  base_url <- glue::glue("https://s3.amazonaws.com/uploads.dskt.ch/{username}")
 }
 
-
+#' @export
 s3_upload_file <- function(file, username, key = NULL){
 
   prefix <- username
@@ -31,6 +33,7 @@ s3_upload_file <- function(file, username, key = NULL){
 
 }
 
+#' @export
 s3_upload_folder <- function(folder, username){
 
   if(!fs::is_dir(folder))
@@ -49,7 +52,7 @@ s3_upload_folder <- function(folder, username){
 
 
 
-
+#' @export
 s3_list <- function(path, username){
 
   svc <- paws.storage::s3(config = s3_config())
@@ -66,9 +69,9 @@ s3_list <- function(path, username){
 
 
 s3_config <- function(){
-  env <- load_dot_env()
-  access_key_id <- Sys.getenv("AWS_ACCESS_KEY_ID_AWS")
-  secret_access_key <- Sys.getenv("AWS_SECRET_ACCESS_KEY_AWS")
+  env <- dotenv::load_dot_env()
+  access_key_id <- Sys.getenv("ACCESS_KEY_ID_AWS")
+  secret_access_key <- Sys.getenv("SECRET_ACCESS_KEY_AWS")
   Sys.getenv("AWS_REGION")
   profile <- ""
 

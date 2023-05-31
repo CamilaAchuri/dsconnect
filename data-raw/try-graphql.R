@@ -54,7 +54,7 @@ res <- httr::POST(
                                             file = "mes,lluvia\\nenero,sí"
                                           ))),
   encode = "json",
-  verbose = TRUE
+  verbose = FALSE
 )
 
 content(res)

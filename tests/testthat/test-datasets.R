@@ -1,7 +1,7 @@
 test_that("Get datasets", {
 
 
-  get_datasets()
+  get_datasets("test")
   get_datasets("ddazal")
 
 })

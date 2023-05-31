@@ -3,6 +3,99 @@
 dsqueries <- function(){
   qry <- ghql::Query$new()
 
+  ## Databases
+
+  db_list <- '
+  query($authOrg: String!, $authToken: String!, $org: String) {
+  databaseLibrary(authOrg: $authOrg, authToken: $authToken, org: $org) {
+    id
+    name
+    slug
+    tables {
+      slug
+    }
+  }
+}'
+
+  db_read <- '
+  query($authOrg: String!, $authToken: String!, $org: String, $db: String!) {
+  databaseLibraryRead(authOrg: $authOrg, authToken: $authToken, db: $db, org: $org) {
+    id
+    name
+    slug
+    tables {
+      slug
+    }
+  }
+  }
+  '
+
+  db_create <- '
+
+  mutation($authOrg: String!, $authToken: String!, $org: String, $name: String!, $slug: String!){
+  createDatabaseRemote(authOrg: $authOrg, authToken: $authToken, name: $name, slug: $slug, org: $org) {
+    id
+    name
+  }
+}
+  '
+
+dt_list <- '
+  query($authOrg: String!, $authToken: String!, $org: String) {
+  databaseLibrary(authOrg: $authOrg, authToken: $authToken, org: $org) {
+    id
+    name
+    slug
+  }
+}'
+
+
+  dt_create <- '
+
+    mutation($authOrg: String!, $authToken: String!, $org: String,
+    $name: String!, $slug: String!, $db: String!){
+  createTableRemote(authOrg: $authOrg, authToken: $authToken, name: $name,
+  slug: $slug, org: $org, db: $db) {
+    id
+    name
+  }
+}
+
+  '
+
+dv_list <- '
+  query($authOrg: String!, $authToken: String!, $org: String) {
+  vizLibrary(authOrg: $authOrg, authToken: $authToken, org: $org) {
+    id
+    name
+    slug
+  }
+}'
+
+dv_read <- '
+  query($authOrg: String!, $authToken: String!, $org: String, $slug: String!) {
+  vizLibraryRead(authOrg: $authOrg, authToken: $authToken, slug: $slug, org: $org) {
+    id
+    name
+  }
+  }
+  '
+
+
+
+dv_create <- '
+    mutation($authOrg: String!, $authToken: String!, $org: String,
+    $name: String!, $slug: String!){
+  createVizRemote(authOrg: $authOrg, authToken: $authToken, name: $name,
+  slug: $slug, org: $org) {
+    id
+  }
+}
+
+  '
+
+
+
   ## DATASETS
 
   get_datasets <- '
@@ -84,6 +177,13 @@ dsqueries <- function(){
 
 
   dsqueries <- list(
+    db_list = db_list,
+    db_read = db_read,
+    db_create = db_create,
+    dt_create = dt_create,
+    dv_list = dv_list,
+    dv_read =dv_read,
+    dv_create = dv_create,
     get_datasets = get_datasets,
     upload_dataset = upload_dataset,
     create_app_premium = create_app_premium,
@@ -99,12 +199,19 @@ available_dsqueries <- function(){
   names(qs$queries)
 }
 
-run_dsqueries <- function(queryname, variables, print_query = FALSE){
+run_dsqueries <- function(queryname, variables, print_query = FALSE,
+                          test = FALSE){
   qry <- dsqueries()
   if(!queryname %in% names(qry))
     stop("Queryname must be one of: ", paste(names(qry), collapse = ", "))
 
-  url <- "https://app.datasketch.co/.netlify/functions/graphql"
+  if(test){
+    url <- "http://192.168.87.97:8911/graphql"
+    url <- "https://d00b-186-31-143-155.ngrok-free.app/graphql"
+    url <- "https://app.datasketch.co/.netlify/functions/graphql"
+  }else{
+    url <- "https://app.datasketch.co/.netlify/functions/graphql"
+  }
 
   q <- qry[[queryname]]
 
@@ -113,11 +220,17 @@ run_dsqueries <- function(queryname, variables, print_query = FALSE){
     cat(q)
   }
 
+  # res <- httr::POST(
+  #   url = url,
+  #   body = list(query = q, variables = variables),
+  #   encode = "json",
+  #   httr::verbose()
+  # )
+
   res <- httr::POST(
     url = url,
     body = list(query = q, variables = variables),
-    encode = "json",
-    httr::verbose()
+    encode = "json"
   )
   httr::content(res)
 

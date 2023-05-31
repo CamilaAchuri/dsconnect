@@ -1,0 +1,3 @@
+id,label,hdtype,format,stats,fld___id
+speed,speed,Num,"{""speed"":{""spec"":""%f""},""dist"":{""spec"":""%f""}}","{""speed"":{""n_unique"":19,""n_na"":0,""pct_na"":0,""min"":4,""max"":25},""dist"":{""n_unique"":35,""n_na"":0,""pct_na"":0,""min"":2,""max"":120}}",wf0hekc7
+dist,dist,Num,"{""speed"":{""spec"":""%f""},""dist"":{""spec"":""%f""}}","{""speed"":{""n_unique"":19,""n_na"":0,""pct_na"":0,""min"":4,""max"":25},""dist"":{""n_unique"":35,""n_na"":0,""pct_na"":0,""min"":2,""max"":120}}",ucf56nsn

@@ -9,11 +9,13 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Suggests: 
-    testthat (>= 3.0.0),
-    paws.storage
-Config/testthat/edition: 3
-Imports: 
+Depends:
+    R (>= 4.2),
+    vctrs
+Imports:
+    R6,
+    hdbase,
+    hdviz,
     dotenv,
     ghql,
     jsonlite,
@@ -22,3 +24,7 @@ Imports:
     lifecycle,
     rlang,
     withr
+Config/testthat/edition: 3
+Suggests: 
+    testthat (>= 3.0.0),
+    paws.storage
