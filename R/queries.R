@@ -50,7 +50,7 @@ dt_list <- '
 }'
 
 
-  dt_create <- '
+dt_create <- '
 
     mutation($authOrg: String!, $authToken: String!, $org: String,
     $name: String!, $slug: String!, $db: String!){
@@ -67,8 +67,8 @@ dv_list <- '
   query($authOrg: String!, $authToken: String!, $org: String) {
   vizLibrary(authOrg: $authOrg, authToken: $authToken, org: $org) {
     id
-    name
     slug
+    name
   }
 }'
 
@@ -96,14 +96,14 @@ dv_create <- '
 
 
 
-  ## DATASETS
+## DATASETS
 
-  get_datasets <- '
+get_datasets <- '
   query($username: String!){
     databases(organizationSlug: $username) {id, name }
   }'
 
-  upload_dataset <-  '
+upload_dataset <-  '
   mutation ($token: String!,
                 $input: UploadDataFileToS3Input!
   ) {
@@ -113,13 +113,13 @@ dv_create <- '
   }
   '
 
-  ## VISUALIZATION
+## VISUALIZATION
 
 
 
-  ## APPS
+## APPS
 
-  create_app_premium <- '
+create_app_premium <- '
   mutation ($token: String!, $username: String!,
             $orgname: String!, $slug: String!,
             $name: String!, $url: String!){
@@ -137,7 +137,7 @@ dv_create <- '
   }
   '
 
-  create_app_public <- '
+create_app_public <- '
   mutation ($token: String!, $username: String!,
             $slug: String!,
             $name: String!, $url: String!){
@@ -155,7 +155,7 @@ dv_create <- '
 
   '
 
-  create_visualization <- '
+create_visualization <- '
   mutation($token: String!, $sender: String!,
             $name: String!,$slug: String!,
             $username: String!, $app: String!) {
@@ -176,22 +176,22 @@ dv_create <- '
 
 
 
-  dsqueries <- list(
-    db_list = db_list,
-    db_read = db_read,
-    db_create = db_create,
-    dt_create = dt_create,
-    dv_list = dv_list,
-    dv_read =dv_read,
-    dv_create = dv_create,
-    get_datasets = get_datasets,
-    upload_dataset = upload_dataset,
-    create_app_premium = create_app_premium,
-    create_app_public = create_app_public,
-    create_visualization = create_visualization
-  )
+dsqueries <- list(
+  db_list = db_list,
+  db_read = db_read,
+  db_create = db_create,
+  dt_create = dt_create,
+  dv_list = dv_list,
+  dv_read =dv_read,
+  dv_create = dv_create,
+  get_datasets = get_datasets,
+  upload_dataset = upload_dataset,
+  create_app_premium = create_app_premium,
+  create_app_public = create_app_public,
+  create_visualization = create_visualization
+)
 
-  dsqueries
+dsqueries
 }
 
 available_dsqueries <- function(){

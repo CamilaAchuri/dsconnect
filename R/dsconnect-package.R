@@ -1,9 +1,7 @@
 #' @keywords internal
 "_PACKAGE"
 
-#' @importFrom hdtable create_dic
-#' @export
-hdtable::create_dic
+
 
 ## usethis namespace: start
 #' @import rlang

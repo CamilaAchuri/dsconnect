@@ -11,27 +11,19 @@ test_that("db_list", {
 })
 
 
+test_that("db_create and read",{
 
-test_that("db_read", {
-
-  dsdb_read("ddazal", db = "anime")
-  dsdb_read(org = "redwoodjs", db = "redwoodjs-startups")
-
-  dbs <- dsdb_list(org = "test")
-
-  db <- "db-cars"
-  cars <- dsdb_read(org = "test", db = "db-cars")
-
-})
-
-
-
-
-test_that("db_create",{
-
-  b <- list(cars3 = cars)
+  b <- list(cars4 = cars, iris = iris)
   org <- "test"
-  dsdb_create(b, slug = "b10", org = org)
+  dsdb_create(b, slug = "b11", org = org)
+
+
+  db <- "b11"
+  cars_iris <- dsdb_read(org = "test", db = db)
+
+  cars_iris$hdtables_slugs()
+  hdbase_hdtables(hb)
+
 
 
   dsdb_gql_create(slug = "temp", name = "db-name", org = "test")
@@ -55,6 +47,20 @@ test_that("db_create",{
 })
 
 
+test_that("db_read", {
+
+  dsdb_read("ddazal", db = "anime")
+  dsdb_read(org = "redwoodjs", db = "redwoodjs-startups")
+
+  dbs <- dsdb_list(org = "test")
+
+  db <- "db-cars"
+  cars <- dsdb_read(org = "test", db = "db-cars")
+
+
+
+
+})
 
 
 

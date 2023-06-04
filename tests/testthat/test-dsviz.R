@@ -1,19 +1,36 @@
 test_that("Viz", {
 
-  httr::GET("http://192.168.87.97:8080")
+  ## Test ggplot
+
+  library(ggplot2)
+  gg <- ggplot(cars, aes(speed, dist)) + geom_point()
+
+  hdviz <- hdviz(gg, slug = "viz3")
+
+  dsviz_create(hdviz, name = "Viz 3", org = "test")
+  dsviz_create(gg, slug = "viz-gg", name = "Viz GG", org = "test")
 
   dsviz_list(org = "wikipedia")
 
-  dsviz_create(slug = "viz1", name = "First Viz")
-  dsviz_create(slug = "viz2", name = "2 Viz Wiki", org = "wikipedia")
 
-  dsviz_create(slug = "viz1", name = "First Viz", org = "ddazal")
+  # Test htmlwidgets
+
+  library(leaflet)
+
+  lt <- leaflet() %>%
+    addTiles() %>%  # Add default OpenStreetMap map tiles
+    addMarkers(lng= -74.1, lat= 4.66, popup="Bog")
+  lt
+  #hdviz <- hdviz(lt, slug = "map1")
+  #hdviz_write(hdviz, "tmp/map")
+  hdviz <- lt
+  dsviz_create(lt, slug = "map1", name = "First Map", org = "test")
+
+  dsviz_read(slug = "map1", org = "test")
 
 
+  dsviz_list(org = "test")
   dsviz_list(org = "jpmarindiaz")
-
-
-  dsviz_read(slug = "viz1")
 
   dsviz_read(slug = "viz2", org = "wikipedia")
 
