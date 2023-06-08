@@ -69,7 +69,6 @@ s3_list <- function(path, username){
 
 
 s3_config <- function(){
-  env <- dotenv::load_dot_env()
   access_key_id <- Sys.getenv("ACCESS_KEY_ID_AWS")
   secret_access_key <- Sys.getenv("SECRET_ACCESS_KEY_AWS")
   Sys.getenv("AWS_REGION")

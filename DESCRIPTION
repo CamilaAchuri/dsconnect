@@ -16,7 +16,6 @@ Imports:
     R6,
     hdbase,
     hdviz,
-    dotenv,
     ghql,
     jsonlite,
     cli,

@@ -1,7 +1,6 @@
 
 library(paws.storage)
 library(httr)
-library(dotenv)
 
 env <- load_dot_env()
 access_key_id <- Sys.getenv("AWS_ACCESS_KEY_ID_AWS")

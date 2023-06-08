@@ -20,6 +20,7 @@ vignettes/*.pdf
 #*.Rproj
 .Rproj.user
 
+.Renviron
 .env
 tmp/*
 .DS_Store

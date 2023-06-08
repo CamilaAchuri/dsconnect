@@ -1,6 +1,6 @@
 library(jose)
 
-dotenv::load_dot_env()
+
 secret <- Sys.getenv("DS_JWT_SECRET")
 
 # token <- jwt_claim(name = "jeroen", session = 123456)
