@@ -15,7 +15,20 @@ test_that("db_create and read",{
 
   b <- list(cars4 = cars, iris = iris)
   org <- "test"
-  dsdb_create(b, slug = "b11", org = org)
+  dsdb_create(b, slug = "b111", org = org)
+
+
+  dsdt_create(slug = "dt-slug", name = "dt-name2", org = "test",
+              db = "b111")
+  new_slug <- "dt-slug-2"
+  dsdt_update(slug = "dt-slug", name = "DT NEW", org = "test",
+              new_slug = new_slug,
+              db = "b111")
+
+
+
+  dsdb_update()
+
 
 
   db <- "b11"

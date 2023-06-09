@@ -40,6 +40,23 @@ dsqueries <- function(){
 }
   '
 
+# Input: name, description, public, license, provider, locked, slug
+db_update <- '
+    mutation($authOrg: String!, $authToken: String!, $org: String!,
+    $input: UpdateDatabaseInput!, $slug: String!){
+  updateDatabaseRemote(authOrg: $authOrg, authToken: $authToken, slug: $slug, org: $org,
+  input: $input
+  ) {
+    id
+  }
+}
+
+'
+
+
+
+
+
 dt_list <- '
   query($authOrg: String!, $authToken: String!, $org: String) {
   databaseLibrary(authOrg: $authOrg, authToken: $authToken, org: $org) {
@@ -63,6 +80,21 @@ dt_create <- '
 
   '
 
+
+dt_update <- '
+    mutation($authOrg: String!, $authToken: String!, $org: String!, $db: String!,
+    $input: UpdateDataTableInput!, $slug: String!){
+  updateTableRemote(authOrg: $authOrg, authToken: $authToken, slug: $slug, org: $org, db:$db,
+  input: $input
+  ) {
+    id
+  }
+}
+
+'
+
+
+
 dv_list <- '
   query($authOrg: String!, $authToken: String!, $org: String) {
   vizLibrary(authOrg: $authOrg, authToken: $authToken, org: $org) {
@@ -81,8 +113,6 @@ dv_read <- '
   }
   '
 
-
-
 dv_create <- '
     mutation($authOrg: String!, $authToken: String!, $org: String,
     $name: String!, $slug: String!){
@@ -93,6 +123,29 @@ dv_create <- '
 }
 
   '
+
+dv_create2 <- '
+    mutation($authOrg: String!, $authToken: String!, $org: String,
+    $name: String!, $slug: String!, $description: String){
+  createVizRemote(authOrg: $authOrg, authToken: $authToken, name: $name,
+  slug: $slug, org: $org, description:$description) {
+    id
+  }
+}
+
+  '
+
+dv_update <- '
+    mutation($authOrg: String!, $authToken: String!, $org: String!,
+    $input: UpdateVisualizationInput!, $slug: String!){
+  updateVizRemote(authOrg: $authOrg, authToken: $authToken, slug: $slug, org: $org,
+  input: $input
+  ) {
+    id
+  }
+}
+
+'
 
 
 
@@ -180,10 +233,13 @@ dsqueries <- list(
   db_list = db_list,
   db_read = db_read,
   db_create = db_create,
+  db_update = db_update,
   dt_create = dt_create,
+  dt_update =dt_update,
   dv_list = dv_list,
   dv_read =dv_read,
   dv_create = dv_create,
+  dv_update = dv_update,
   get_datasets = get_datasets,
   upload_dataset = upload_dataset,
   create_app_premium = create_app_premium,
@@ -208,9 +264,10 @@ run_dsqueries <- function(queryname, variables, print_query = FALSE,
   if(test){
     url <- "http://192.168.87.97:8911/graphql"
     url <- "https://d00b-186-31-143-155.ngrok-free.app/graphql"
-    url <- "https://app.datasketch.co/.netlify/functions/graphql"
+    url <- "http://c3f0-186-31-143-154.ngrok-free.app/graphql"
   }else{
     url <- "https://app.datasketch.co/.netlify/functions/graphql"
+    url <- "http://c3f0-186-31-143-154.ngrok-free.app/graphql"
   }
 
   q <- qry[[queryname]]

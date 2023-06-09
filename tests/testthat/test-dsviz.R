@@ -19,12 +19,54 @@ test_that("Viz", {
 
   lt <- leaflet() %>%
     addTiles() %>%  # Add default OpenStreetMap map tiles
-    addMarkers(lng= -74.1, lat= 4.66, popup="Bog")
+    addMarkers(lng= -90.5176668470208, lat= 14.606746242899538,
+               popup="Guatemala")
   lt
   #hdviz <- hdviz(lt, slug = "map1")
   #hdviz_write(hdviz, "tmp/map")
   hdviz <- lt
-  dsviz_create(lt, slug = "map1", name = "First Map", org = "test")
+  dsviz_create(lt, slug = "mapa-22-alcaldias",
+               name = "Mapa 22 Alcaldías", org = "ojo-con-mi-pisto")
+
+
+
+  ####
+
+  library(hdviz)
+  library(leaflet)
+
+  lt <- leaflet() %>%
+    addTiles() %>%  # Add default OpenStreetMap map tiles
+    addMarkers(lng= -90.5176668470208, lat= 14.606746242899538,
+               popup="Guatemala")
+  lt
+  #hdviz <- hdviz(lt, slug = "map_test")
+  #hdviz_write(hdviz, "tmp/mp_test")
+  hdviz <- lt
+
+  dsviz_create(lt, slug = "mapa-22-alcaldias",
+               name = "Mapa 22 Alcaldías", org = "test")
+
+
+  dsviz_update(lt2, slug = "mapa-22-alcaldias",
+               name = "Mapa 23", org = "test")
+
+
+
+
+  lt2 <- leaflet() %>%
+    addTiles() %>%  # Add default OpenStreetMap map tiles
+    addMarkers(lng= -71.2, lat= 4.71,
+               popup="Bogotá")
+
+
+
+
+  dsviz_update(lt2, slug = "mapa-22-alcaldias",
+               name = "Mapa 22 Alcaldías", org = "ojo-con-mi-pisto")
+
+
+
 
   dsviz_read(slug = "map1", org = "test")
 
