@@ -262,12 +262,12 @@ run_dsqueries <- function(queryname, variables, print_query = FALSE,
     stop("Queryname must be one of: ", paste(names(qry), collapse = ", "))
 
   if(test){
-    url <- "http://192.168.87.97:8911/graphql"
-    url <- "https://d00b-186-31-143-155.ngrok-free.app/graphql"
-    url <- "http://c3f0-186-31-143-154.ngrok-free.app/graphql"
-  }else{
+    url <- "http://c5f5-186-31-143-154.ngrok-free.app/graphql"
     url <- "https://app.datasketch.co/.netlify/functions/graphql"
-    url <- "http://c3f0-186-31-143-154.ngrok-free.app/graphql"
+
+  }else{
+    url <- "http://c5f5-186-31-143-154.ngrok-free.app/graphql"
+    url <- "https://app.datasketch.co/.netlify/functions/graphql"
   }
 
   q <- qry[[queryname]]

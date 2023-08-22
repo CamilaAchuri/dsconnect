@@ -5,10 +5,10 @@ test_that("Viz", {
   library(ggplot2)
   gg <- ggplot(cars, aes(speed, dist)) + geom_point()
 
-  hdviz <- hdviz(gg, slug = "viz3")
+  hdviz <- hdviz(gg, slug = "viz-g9")
 
   dsviz_create(hdviz, name = "Viz 3", org = "test")
-  dsviz_create(gg, slug = "viz-gg", name = "Viz GG", org = "test")
+  dsviz_create(gg, slug = "viz-g5", name = "Viz GG", org = "test")
 
   dsviz_list(org = "wikipedia")
 
@@ -25,8 +25,8 @@ test_that("Viz", {
   #hdviz <- hdviz(lt, slug = "map1")
   #hdviz_write(hdviz, "tmp/map")
   hdviz <- lt
-  dsviz_create(lt, slug = "mapa-22-alcaldias",
-               name = "Mapa 22 Alcaldías", org = "ojo-con-mi-pisto")
+  dsviz_create(lt, slug = "mapa-01",
+               name = "Mapa-01", org = "test")
 
 
 
@@ -73,6 +73,7 @@ test_that("Viz", {
 
   dsviz_list(org = "test")
   dsviz_list(org = "jpmarindiaz")
+  dsviz_list(org = "ojo-con-mi-pisto")
 
   dsviz_read(slug = "viz2", org = "wikipedia")
 

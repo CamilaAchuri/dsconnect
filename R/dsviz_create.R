@@ -26,20 +26,28 @@ dsviz_create <- function(viz,
                         name= NULL,
                         org = NULL,
                         authOrg = NULL,
-                        authToken = NULL){
+                        authToken = NULL,
+                        ...){
 
   # Make sure it is an hdviz
 
+  args <- list(...)
   hdviz <- viz
   if(!is_hdviz(hdviz)){
-    hdviz <- hdviz(viz, slug = slug, name = name)
+
+    hdviz <- hdviz(viz, slug = slug, name = name,
+                   description = args$description,
+                   width = args$width,
+                   height = args$height,
+                   formats = args$formats,
+                   meta = args$meta)
   }
 
 
   # Create db in gql
   res <- dsviz_gql_create(slug = hdviz$slug,
                          name = hdviz$name,
-                         #description = b$description,
+                         #description = hdviz$description,
                          org = org,
                          authOrg = authOrg,
                          authToken = authToken)
