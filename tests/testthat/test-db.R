@@ -5,8 +5,25 @@ test_that("db_list", {
   dsdb_list(org = "erinpetenko")
   dsdb_list(org = "ddazal")
 
+  db_ddazal <- dsdb_list(org = "ddazal")
+
+  db_jpmarindiaz <- dsdb_list(org = "jpmarindiaz")
+  db_jpmarindiaz <- dsdt_list(org = "jpmarindiaz")
+
+  db_fcd <- dsdb_list(org = "fcd")
+  dt_fcd <- dsdt_list(org = "fcd")
+})
 
 
+test_that("db_create and read",{
+
+  path_files <- "tmp/banderas-rojas-files"
+  today <- as.character(Sys.Date())
+  h <- hdbase(path_files, slug = "banderas-rojas",
+              name = "Banderas Rojas",
+              lazy = FALSE, last_updated = today)
+  org <- "fcd"
+  dsdb_create(h, slug = "bandera-rojas", org = org)
 
 })
 
@@ -16,6 +33,11 @@ test_that("db_create and read",{
   b <- list(cars4 = cars, iris = iris)
   org <- "test"
   dsdb_create(b, slug = "b111", org = org)
+
+  b <- list(cars4 = cars, iris = iris)
+  db <- hdbase(b)
+  org <- "test"
+  dsdb_create(db, slug = "b111", org = org)
 
 
   dsdt_create(slug = "dt-slug", name = "dt-name2", org = "test",
@@ -74,6 +96,9 @@ test_that("db_read", {
 
 
 })
+
+
+
 
 
 

@@ -255,8 +255,8 @@ available_dsqueries <- function(){
   names(qs$queries)
 }
 
-run_dsqueries <- function(queryname, variables, print_query = FALSE,
-                          test = FALSE){
+run_dsqueries <- function(queryname, variables,
+                          verbose = FALSE, test = FALSE){
   qry <- dsqueries()
   if(!queryname %in% names(qry))
     stop("Queryname must be one of: ", paste(names(qry), collapse = ", "))
@@ -272,7 +272,7 @@ run_dsqueries <- function(queryname, variables, print_query = FALSE,
 
   q <- qry[[queryname]]
 
-  if(print_query){
+  if(verbose){
     message("Query sent: ")
     cat(q)
   }

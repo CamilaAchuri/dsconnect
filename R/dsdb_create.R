@@ -23,7 +23,8 @@
 #' }
 dsdb_create <- function(b,
                         slug = NULL,
-                        name= NULL,
+                        name = NULL,
+                        description = NULL,
                         org = NULL,
                         authOrg = NULL,
                         authToken = NULL){
@@ -32,13 +33,13 @@ dsdb_create <- function(b,
 
   hb <- b
   if(!is_hdbase(hb)){
-    hb <- hdbase(b, slug = slug, name = name)
+    hb <- hdbase(b, slug = slug, name = name, description = description)
   }
 
   # Create db in gql
   res <- dsdb_gql_create(slug = hb$slug,
                          name = hb$name,
-                         #description = b$description,
+                         description = hb$description,
                          org = org,
                          authOrg = authOrg,
                          authToken = authToken)
@@ -80,7 +81,8 @@ dsdb_gql_create <- function(slug = NULL,
                             name= NULL,
                             org = NULL,
                             authOrg = NULL,
-                            authToken = NULL){
+                            authToken = NULL,
+                            verbose = FALSE){
 
   authOrg <- authOrg %||% load_auth()$DS_AUTH_USERNAME
   authToken <- authToken %||% load_auth()$DS_AUTH_TOKEN
@@ -94,7 +96,7 @@ dsdb_gql_create <- function(slug = NULL,
     authOrg = authOrg,
     authToken = authToken
   )
-  run_dsqueries(queryname, variables = variables, test = TRUE)
+  run_dsqueries(queryname, variables = variables, verbose = verbose)
 
 }
 
