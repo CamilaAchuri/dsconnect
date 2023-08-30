@@ -10,7 +10,8 @@ dsviz_create(
   name = NULL,
   org = NULL,
   authOrg = NULL,
-  authToken = NULL
+  authToken = NULL,
+  ...
 )
 }
 \arguments{

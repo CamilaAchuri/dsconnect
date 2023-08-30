@@ -8,6 +8,7 @@ dsdb_create(
   b,
   slug = NULL,
   name = NULL,
+  description = NULL,
   org = NULL,
   authOrg = NULL,
   authToken = NULL

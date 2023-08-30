@@ -72,7 +72,7 @@ dsviz_create <- function(viz,
     s3path <- s3_upload(viz_path, username = org)
     unlink(file.path(tmpdir,hdviz$slug), recursive = TRUE)
   }
-  file.path(s3path, hdviz$slug)
+  file.path(s3path, hdviz$slug, paste0(hdviz$slug, ".meta.json"))
 
 }
 

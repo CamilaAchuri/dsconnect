@@ -18,12 +18,23 @@
 #' }
 dsdb_list <- function(org = NULL,
                       authOrg = NULL,
-                      authToken = NULL){
+                      authToken = NULL,
+                      with_tables = TRUE){
   res <- dsdb_gql_list(org = org, authOrg = authOrg, authToken = authToken)
   l <- res$data$databaseLibrary
   if(dstools::is.empty(l)) return()
-  dbs <- purrr::map(l, purrr::list_flatten) |> dplyr::bind_rows()
-  dbs |> dplyr::select(-id)
+
+
+
+  dbs <- purrr::map(l, function(x){
+    tibble::tibble(name = x$name, slug = x$slug,
+                   tables = list(unname(unlist(x$tables))))
+  }) |>
+    dplyr::bind_rows()
+  if(with_tables){
+    dbs <- dbs |> tidyr::unnest(tables)
+  }
+  dbs
 }
 
 dsdb_gql_list <- function(org = NULL,
